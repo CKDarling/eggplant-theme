@@ -4,6 +4,7 @@ Drawn at 4x with Pillow and downsampled for anti-aliasing.
 
     python3 scripts/make_icon.py
 """
+import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -43,13 +44,25 @@ d.arc([s(-20), s(160), s(276), s(300)], 200, 340, fill=SOIL_LIGHT, width=s(3))
 for y, inset in ((200, 48), (224, 20)):
     d.line([(s(inset), s(y)), (s(SIZE - inset), s(y))], fill=(44, 31, 40), width=s(5))
 
-# Three plants: a vegetable top peeking out of the soil, with leaves
+# Three plants: a vegetable top peeking out of the soil, with rounded leaves
+def leaf(x, y, angle, length, width, fill):
+    """A plump lens-shaped leaf from (x, y) pointing `angle` degrees from straight up."""
+    a = math.radians(angle)
+    ux, uy = math.sin(a), -math.cos(a)  # along the leaf
+    px_, py_ = -uy, ux                  # across it
+    top, bottom = [], []
+    for i in range(25):
+        t = i / 24
+        w = width * math.sin(math.pi * t) ** 0.8 * (1 - 0.25 * t)
+        cx_, cy_ = x + ux * length * t, y + uy * length * t
+        top.append((s(cx_ + px_ * w), s(cy_ + py_ * w)))
+        bottom.append((s(cx_ - px_ * w), s(cy_ - py_ * w)))
+    d.polygon(top + bottom[::-1], fill=fill)
+
+
 for cx, base, col in ((62, 196, VEG[0]), (128, 186, VEG[1]), (194, 196, VEG[2])):
-    for side in (-1, 1):
-        for lean, ln in ((0.45, 46), (0.9, 38)):
-            tip = (cx + side * ln * lean, base - ln)
-            d.polygon([(s(cx), s(base - 12)), (s(cx + side * 9), s(base - ln * 0.55)),
-                       (s(tip[0]), s(tip[1])), (s(cx + side * 2), s(base - ln * 0.5))], fill=LEAF)
+    for angle, length, width in ((-52, 42, 9), (52, 42, 9), (-18, 50, 10), (18, 50, 10)):
+        leaf(cx, base - 8, angle, length, width, LEAF)
     d.ellipse([s(cx - 15), s(base - 14), s(cx + 15), s(base + 16)], fill=col)
     d.ellipse([s(cx - 9), s(base - 9), s(cx - 2), s(base - 2)], fill=tuple(min(255, c + 40) for c in col))
 
