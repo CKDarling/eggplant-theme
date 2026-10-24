@@ -16,11 +16,11 @@ BG_TOP, BG_BOTTOM = (36, 30, 34), (22, 19, 20)
 PEACH = (233, 202, 174)
 SOIL, SOIL_LIGHT = (54, 38, 49), (88, 75, 109)
 LEAF = (122, 154, 122)
-VEG = [(184, 154, 200), (196, 138, 168), (214, 174, 120)]  # orchid, pink, gold
+CARROT, RADISH, ONION = (214, 150, 104), (196, 138, 168), (184, 154, 200)  # terracotta-gold, pink, orchid
 
 
 def s(v):
-    return v * SS
+    return round(v * SS)
 
 
 img = Image.new("RGBA", (s(SIZE), s(SIZE)))
@@ -60,11 +60,53 @@ def leaf(x, y, angle, length, width, fill):
     d.polygon(top + bottom[::-1], fill=fill)
 
 
-for cx, base, col in ((62, 196, VEG[0]), (128, 186, VEG[1]), (194, 196, VEG[2])):
-    for angle, length, width in ((-52, 42, 9), (52, 42, 9), (-18, 50, 10), (18, 50, 10)):
-        leaf(cx, base - 8, angle, length, width, LEAF)
-    d.ellipse([s(cx - 15), s(base - 14), s(cx + 15), s(base + 16)], fill=col)
-    d.ellipse([s(cx - 9), s(base - 9), s(cx - 2), s(base - 2)], fill=tuple(min(255, c + 40) for c in col))
+def shape(points, fill):
+    d.polygon([(s(x), s(y)) for x, y in points], fill=fill)
+
+
+def curve(cx, top, bottom, half_width, profile):
+    """Mirror-symmetric body from `top` to `bottom`; profile(t) in 0..1 gives width."""
+    left, right = [], []
+    for i in range(41):
+        t = i / 40
+        w = half_width * profile(t)
+        y = top + (bottom - top) * t
+        left.append((cx - w, y))
+        right.append((cx + w, y))
+    return left + right[::-1]
+
+
+def shade(color, amount):
+    return tuple(max(0, min(255, c + amount)) for c in color)
+
+
+# Carrot: wide shoulders tapering to a tip
+cx, base = 62, 170
+for angle, length, width in ((-40, 40, 8), (40, 40, 8), (0, 52, 9)):
+    leaf(cx, base, angle, length, width, LEAF)
+shape(curve(cx, base - 4, base + 38, 15, lambda t: (1 - t) ** 0.85), CARROT)
+for y in (base + 10, base + 22):
+    d.line([(s(cx - 8 + (y - base) * 0.12), s(y)), (s(cx - 2), s(y))], fill=shade(CARROT, -45), width=s(2))
+
+# Radish: plump oval
+cx, base = 128, 160
+for angle, length, width in ((-48, 40, 8), (48, 40, 8), (-16, 50, 9), (16, 50, 9)):
+    leaf(cx, base, angle, length, width, LEAF)
+shape(curve(cx, base - 4, base + 40, 15, lambda t: math.sin(math.pi * min(1, t * 0.9 + 0.1)) ** 0.7 if t < 0.95 else 0.1), RADISH)
+d.ellipse([s(cx - 8), s(base + 2), s(cx - 2), s(base + 10)], fill=shade(RADISH, 40))
+
+# Onion: bulb with a pointed neck
+cx, base = 194, 170
+for angle, length, width in ((-20, 56, 6), (20, 56, 6)):
+    leaf(cx, base - 12, angle, length, width, LEAF)
+shape(curve(cx, base - 14, base + 40, 19, lambda t: (math.sin(math.pi * t * 0.92) ** 0.9) * (0.25 + 0.75 * min(1, t * 3)) ** 1.0), ONION)
+for dx in (-8, 0, 8):
+    d.line([(s(cx + dx * 0.4), s(base - 6)), (s(cx + dx), s(base + 30))], fill=shade(ONION, -35), width=s(1.5))
+
+# Soil lip in front of each vegetable so it reads as growing out of the bed
+for cx, base in ((62, 170), (128, 160), (194, 170)):
+    d.ellipse([s(cx - 30), s(base + 22), s(cx + 30), s(base + 44)], fill=SOIL)
+    d.arc([s(cx - 30), s(base + 22), s(cx + 30), s(base + 44)], 205, 335, fill=SOIL_LIGHT, width=s(2))
 
 mask = Image.new("L", img.size, 0)
 ImageDraw.Draw(mask).rounded_rectangle([0, 0, s(SIZE) - 1, s(SIZE) - 1], radius=s(48), fill=255)
