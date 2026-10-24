@@ -1,0 +1,9 @@
+.vscode/**
+examples/**
+.gitignore
+*.vsix
+scripts/**
+.github/**
+images/showcase.png
+images/count-arms.gif
+images/swatches/**

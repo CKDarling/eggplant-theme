@@ -1,0 +1,40 @@
+{
+  "name": "eggplant",
+  "displayName": "Eggplant",
+  "description": "A dark aubergine theme — plum, peach, and sage on near-black ink, built from the My puppeteer Color Palette.",
+  "version": "0.1.0",
+  "publisher": "CKinkadeDarling",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1b1818",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "dark",
+    "plum",
+    "purple",
+    "eggplant",
+    "python",
+    "aubergine"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Eggplant",
+        "uiTheme": "vs-dark",
+        "path": "./themes/eggplant-color-theme.json"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CKDarling/eggplant-theme"
+  }
+}

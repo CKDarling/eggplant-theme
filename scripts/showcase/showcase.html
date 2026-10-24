@@ -1,0 +1,279 @@
+<!doctype html>
+<!--
+  Source for images/showcase.png. The code mirrors examples/sunflower.py, hand-tokenized
+  with the colors Eggplant gives each scope (Pylance semantic colors where they win).
+  Rebuild with: scripts/render_showcase.sh
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eggplant Showcase</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=block">
+<style>
+  :root {
+    --page: #100d0d;
+    --editor: #1b1818;
+    --hairline: #ffffff22;
+    --text: #e9caae;
+    --muted: #9b919a;
+    --slate: #7d8a7e;
+    --font-display: "Bricolage Grotesque", "Avenir Next", sans-serif;
+    --font-body: "IBM Plex Sans", "Helvetica Neue", sans-serif;
+    --font-code: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    width: 1280px;
+    height: 940px;
+    padding: 40px;
+    background: var(--page);
+    color: var(--text);
+    font-family: var(--font-body);
+    display: grid;
+    grid-template-columns: 700px 1fr;
+    gap: 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .window {
+    display: grid;
+    grid-template-rows: 36px 36px 1fr 24px;
+    background: var(--editor);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px #00000066;
+  }
+  .titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 14px;
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+    font-size: 12px;
+    color: var(--text);
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .titlebar .name { position: absolute; left: 0; right: 0; text-align: center; color: #7d8a7e88; }
+  .tabs { display: flex; border-bottom: 1px solid var(--hairline); font-size: 13px; }
+  .tab { display: flex; align-items: center; gap: 8px; padding: 0 16px; border-right: 1px solid var(--hairline); }
+  .tab.active { border-top: 1px solid var(--slate); }
+  .tab.inactive { color: #7d8a7e99; }
+  .py { width: 10px; height: 10px; border-radius: 2px; background: linear-gradient(135deg, #8db1cc 50%, #d6ae78 50%); }
+
+  .code {
+    padding-block: 12px;
+    font-family: var(--font-code);
+    font-size: 13.5px;
+    line-height: 19px;
+    font-variant-ligatures: none;
+  }
+  .ln { display: flex; white-space: pre; }
+  .ln.cur { background: #36263155; }
+  .gutter { flex: none; width: 52px; padding-right: 20px; text-align: right; color: #7d8a7e80; }
+  .ln.cur .gutter { color: #e9caae; }
+  .sel { background: #584b6daa; }
+  .caret { display: inline-block; width: 2px; height: 15px; margin-left: 1px; vertical-align: -3px; background: #e9caae; }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 12px;
+    border-top: 1px solid var(--hairline);
+    font-size: 11.5px;
+    color: #e9caaecc;
+  }
+  .status .right { margin-left: auto; display: flex; gap: 18px; }
+  .remote { padding: 0 10px; height: 100%; display: flex; align-items: center; background: #7d8a7e; color: #1b1818; margin-left: -12px; font-weight: 500; }
+
+  aside { display: grid; align-content: start; gap: 22px; padding-top: 6px; }
+  .eyebrow { font-family: var(--font-code); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
+  h1 { margin: 6px 0 0; font-family: var(--font-display); font-weight: 700; font-size: 40px; line-height: 1.05; letter-spacing: -0.01em; }
+  .sub { margin: 8px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; text-wrap: balance; }
+
+  .legend { display: grid; gap: 0; }
+  .row {
+    display: grid;
+    grid-template-columns: 16px 150px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    height: 46px;
+    border-top: 1px solid #ffffff12;
+    font-size: 14px;
+  }
+  .row:last-child { border-bottom: 1px solid #ffffff12; }
+  .chip { width: 16px; height: 16px; border-radius: 4px; border: 1px solid #ffffff22; }
+  .role { color: var(--text); }
+  .sample { font-family: var(--font-code); font-size: 13px; white-space: pre; overflow: hidden; font-variant-ligatures: none; }
+  .hex { font-family: var(--font-code); font-size: 12px; color: var(--muted); }
+  .group { margin-top: 10px; }
+</style>
+</head>
+<body>
+  <section class="window">
+    <div class="titlebar">
+      <span class="dot" style="background:#b06a78"></span>
+      <span class="dot" style="background:#c98f7a"></span>
+      <span class="dot" style="background:#7a9a7a"></span>
+      <span class="name">sunflower.py — eggplant-theme</span>
+    </div>
+    <div class="tabs">
+      <span class="tab active"><span class="py"></span>sunflower.py</span>
+      <span class="tab inactive">README.md</span>
+    </div>
+    <div class="code" id="code"></div>
+    <div class="status">
+      <span class="remote">main</span>
+      <span>Ln 32, Col 70</span>
+      <div class="right"><span>Spaces: 4</span><span>UTF-8</span><span>Python 3.12</span></div>
+    </div>
+  </section>
+
+  <aside>
+    <div>
+      <div class="eyebrow">VS Code theme</div>
+      <h1>Eggplant</h1>
+      <p class="sub">A dark theme in aubergine, plum and sage, with a distinct color for every part of a Python file.</p>
+    </div>
+    <div class="legend" id="legend"></div>
+  </aside>
+
+<script>
+const STYLE = {
+  kw: ["#b89ac8"], ctrl: ["#b89ac8", "b"], stor: ["#b89ac8"], fpre: ["#b89ac8"], glob: ["#b89ac8"],
+  fn: ["#8db1cc"], bi: ["#7fb0a6"], type: ["#7fb0a6"], magic: ["#7fb0a6", "i"],
+  cls: ["#d6ae78"], clsdef: ["#d6ae78", "b"],
+  dec: ["#c98f7a", "i"], fb: ["#c98f7a"], esc: ["#c98f7a"],
+  str: ["#9fb48a"], doc: ["#9fb48a", "i"],
+  num: ["#c48aa8"], const: ["#b88a5e", "b"], caps: ["#b88a5e"],
+  self: ["#9c8ab4", "i"], cmt: ["#7d8a7e", "i"],
+  param: ["#e9caaedd"], attr: ["#e9caaecc"], op: ["#e9caaebb"], punc: ["#e9caaeaa"],
+  mod: ["#e9caae"], v: ["#e9caae"],
+};
+
+// «kind:text» is a token, «!kind:text» sits inside the selection; unmarked text is a plain name.
+const SRC = [
+  "«kw:from» «mod:__future__» «kw:import» annotations",
+  "",
+  "«kw:import» «mod:json»",
+  "«kw:from» «mod:dataclasses» «kw:import» «fn:dataclass»",
+  "",
+  "«caps:LUCAS_SEED» «op:=» «punc:(»«num:2»«punc:,» «num:1»«punc:)»  «cmt:# Fibonacci's sibling: 2, 1, 3, 4, 7, 11, ...»",
+  "_checked«punc::» «type:int» «op:=» «num:0»",
+  "",
+  "",
+  "«stor:def» «fn:is_prime»«punc:(»«param:n»«punc::» «type:int»«punc:)» «op:->» «type:bool»«punc::»",
+  "    «glob:global» _checked",
+  "    _checked «op:+=» «num:1»",
+  "    «ctrl:return» «param:n» «op:>» «num:1» «op:and» «bi:all»«punc:(»«param:n» «op:%» d «ctrl:for» d «ctrl:in» «bi:range»«punc:(»«num:2»«punc:,» «type:int»«punc:(»«param:n»«op:**»«num:0.5»«punc:)» «op:+» «num:1»«punc:))»",
+  "",
+  "",
+  "«dec:@dataclass»«punc:(»«param:frozen»«op:=»«const:True»«punc:)»",
+  "«stor:class» «clsdef:Sunflower»«punc::»",
+  "    «doc:\"\"\"A seed head whose spirals count out the Lucas numbers.\"\"\"»",
+  "",
+  "    name«punc::» «type:str»",
+  "    spirals«punc::» «type:int» «op:=» «num:47»",
+  "    note«punc::» «type:str» «op:|» «const:None» «op:=» «const:None»",
+  "",
+  "    «stor:def» «fn:lucas»«punc:(»«self:self»«punc:)» «op:->» «type:list»«punc:[»«type:int»«punc:]»«punc::»",
+  "        seq «op:=» «bi:list»«punc:(»«caps:LUCAS_SEED»«punc:)»",
+  "        «ctrl:while» seq«punc:[»«op:-»«num:1»«punc:]» «op:<» «self:self»«punc:.»«attr:spirals»«punc::»",
+  "            seq«punc:.»«fn:append»«punc:(»seq«punc:[»«op:-»«num:1»«punc:]» «op:+» seq«punc:[»«op:-»«num:2»«punc:])»",
+  "        «ctrl:return» seq",
+  "",
+  "    «stor:def» «fn:is_safe_prime»«punc:(»«self:self»«punc:)» «op:->» «type:bool»«punc::»",
+  "        «cmt:# 47 = 2 * 23 + 1, and 23 is prime as well»",
+  "        «ctrl:return» «fn:is_prime»«punc:(»«self:self»«punc:.»«attr:spirals»«punc:)» «op:and» «fn:is_prime»«punc:((»«!self:self»«!punc:.»«!attr:spirals»«!op: - »«!num:1»«punc:)» «op:/»«op:/» «num:2»«punc:)»",
+  "",
+  "",
+  "«ctrl:if» «magic:__name__» «op:==» «str:\"__main__\"»«punc::»",
+  "    head «op:=» «cls:Sunflower»«punc:(»«str:\"Helianthus\"»«punc:)»",
+  "    «bi:print»«punc:(»«fpre:f»«str:\"»«fb:{»head«punc:.»«attr:name»«fb:}»«esc:\\t»«fb:{»head«punc:.»«fn:lucas»«punc:()»«fb:}»«str:\"»«punc:)»",
+  "    «bi:print»«punc:(»«mod:json»«punc:.»«fn:dumps»«punc:({»«str:\"safe\"»«punc::» head«punc:.»«fn:is_safe_prime»«punc:(),» «str:\"checks\"»«punc::» _checked«punc:}))»",
+];
+const CURSOR_LINE = 32;
+
+// role, chip color, sample tokens (same markup), hex label
+const LEGEND = [
+  ["Keywords", "#b89ac8", "«stor:def»  «ctrl:while»  «ctrl:return»  «glob:global»", "#b89ac8"],
+  ["Functions", "#8db1cc", "«fn:is_prime»«punc:()»  «fn:lucas»«punc:()»", "#8db1cc"],
+  ["Strings", "#9fb48a", "«str:\"Helianthus\"»  «doc:\"\"\"docs\"\"\"»", "#9fb48a"],
+  ["Comments", "#7d8a7e", "«cmt:# 47 = 2 * 23 + 1»", "#7d8a7e"],
+  ["Builtins & types", "#7fb0a6", "«bi:len»  «type:int»  «type:str»  «magic:__name__»", "#7fb0a6"],
+  ["Classes", "#d6ae78", "«clsdef:Sunflower»  «cls:Sunflower»«punc:()»", "#d6ae78"],
+  ["Decorators & escapes", "#c98f7a", "«dec:@dataclass»  «fb:{»head«fb:}»  «esc:\\n»", "#c98f7a"],
+  ["Numbers", "#c48aa8", "«num:47»  «num:0.5»", "#c48aa8"],
+  ["Constants", "#b88a5e", "«const:True»  «const:None»  «caps:LUCAS_SEED»", "#b88a5e"],
+  ["self / cls", "#9c8ab4", "«self:self»«punc:.»«attr:spirals»", "#9c8ab4"],
+  ["Names", "#e9caae", "head  seq  «param:n»", "#e9caae"],
+];
+const SURFACES = [
+  ["Current line", "#362631", "#36263155"],
+  ["Selection", "#584b6d", "#584b6daa"],
+];
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+
+function tokens(line, into) {
+  const re = /«(!?)(\w+):([\s\S]*?)»/g;
+  let last = 0, sel = null, m;
+  const add = (kind, text, selected) => {
+    const [color, flag] = STYLE[kind];
+    const s = el("span", null, text);
+    s.style.color = color;
+    if (flag === "b") s.style.fontWeight = "700";
+    if (flag === "i") s.style.fontStyle = "italic";
+    if (selected) { sel = sel || into.appendChild(el("span", "sel")); sel.append(s); }
+    else { sel = null; into.append(s); }
+  };
+  while ((m = re.exec(line))) {
+    if (m.index > last) add("v", line.slice(last, m.index), false);
+    add(m[2], m[3], m[1] === "!");
+    last = re.lastIndex;
+  }
+  if (last < line.length) add("v", line.slice(last), false);
+}
+
+const code = document.getElementById("code");
+SRC.forEach((line, i) => {
+  const row = el("div", "ln" + (i + 1 === CURSOR_LINE ? " cur" : ""));
+  row.append(el("span", "gutter", String(i + 1)));
+  const src = el("span");
+  tokens(line, src);
+  if (i + 1 === CURSOR_LINE) src.append(el("span", "caret"));
+  if (!line) src.append(" ");
+  row.append(src);
+  code.append(row);
+});
+
+const legend = document.getElementById("legend");
+LEGEND.forEach(([role, chip, sample, hex]) => {
+  const row = el("div", "row");
+  const c = el("span", "chip"); c.style.background = chip;
+  const s = el("span", "sample"); tokens(sample, s);
+  row.append(c, el("span", "role", role), s, el("span", "hex", hex));
+  legend.append(row);
+});
+SURFACES.forEach(([role, chip, hex], i) => {
+  const row = el("div", "row" + (i === 0 ? " group" : ""));
+  const c = el("span", "chip"); c.style.background = chip;
+  const s = el("span", "sample");
+  const bar = el("span", null, i === 0 ? "  while seq[-1] < n:  " : "self.spirals - 1");
+  bar.style.background = hex;
+  bar.style.color = "#e9caae";
+  s.append(bar);
+  row.append(c, el("span", "role", role), s, el("span", "hex", hex));
+  legend.append(row);
+});
+</script>
+</body>
+</html>
